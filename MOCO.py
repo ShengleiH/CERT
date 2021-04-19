@@ -18,19 +18,11 @@ import torch.optim
 import torch.multiprocessing as mp
 import torch.utils.data
 import torch.utils.data.distributed
-import torchvision.transforms as transforms
-import torchvision.models as models
 import moco.loader
 import moco.builder
 import csv
 import pandas as pd
 
-from PIL import Image
-from torch.utils.data import Dataset
-
-# model_names = sorted(name for name in models.__dict__
-#     if name.islower() and not name.startswith("__")
-#     and callable(models.__dict__[name]))
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('--data',  default='./augment.csv', type=str,
@@ -226,8 +218,8 @@ def main_worker(gpu, ngpus_per_node, args):
             sentence1 = row[0]
             sentence2 = row[1]
             pos_dict1 = tokenizer.encode_plus(sentence1, add_special_tokens=True, max_length=64,
-                                             pad_to_max_length=True,
-                                             return_attention_mask=True, return_tensors='pt')
+                                              pad_to_max_length=True,
+                                              return_attention_mask=True, return_tensors='pt')
             pos_dict2 = tokenizer.encode_plus(sentence2, add_special_tokens=True, max_length=64,
                                               pad_to_max_length=True,
                                               return_attention_mask=True, return_tensors='pt')
